@@ -1,0 +1,65 @@
+[tool.poetry]
+name = "bsag"
+version = "0.1.0"
+description = "A Better Simple AutoGrader"
+authors = ["CS 61B Staff <cs61b@berkeley.edu>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10.4"
+pydantic = "^1.10.2"
+pytz = "*"
+PyYAML = "^6.0"
+loguru = "^0.6.0"
+pathspec = "^0.10.2"
+
+[tool.poetry.group.dev.dependencies]
+black = "*"
+pylint = "*"
+mypy = "*"
+types-PyYAML = "^6.0"
+types-pytz = "*"
+ruff = "^0.0"
+pre-commit = "^2.20.0"
+pyupgrade = "^3.2"
+loguru-mypy = "^0.0.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+color = true
+line-length = 120
+target-version = ['py310']
+preview = true
+
+[tool.isort]
+line_length = 120
+known_first_party = 'bsag'
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+combine_as_imports = true
+profile = "black"
+
+[tool.mypy]
+python_version = "3.10"
+show_error_codes = true
+strict = true
+plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+# Pylance and mypy conflict here (error vs ignore). Wait for pathspec version bump to 0.10.3
+module = "bsag.steps.external.checkstyle_jar"
+warn_unused_ignores = false
+
+[tool.pylint.'MESSAGES CONTROL']
+max-line-length = 120
+good-names = "f,i,j,k,v"
+extension-pkg-whitelist = ["pydantic", "loguru"]
+disable = "C0114, C0115, C0116, C0103, R0903, R0914"
+
+[tool.ruff]
+line-length = 120
+extend-select = ["U", "Q"]
