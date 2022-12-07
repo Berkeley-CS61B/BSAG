@@ -139,14 +139,14 @@ class BSAG:
     def config(self) -> RunConfig:
         return self._config
 
-def main() -> None:
+def main(steps: list[type[ParamBaseStep]] | None = None) -> None:
     parser = ArgumentParser(description="A Better Simple AutoGrader")
     parser.add_argument("--dry-run", action="store_true", help="Parse config, but don't run.")
     parser.add_argument("--global-config", help="Path to global config file")
     parser.add_argument("--config", required=True, help="Path to config file")
     args = parser.parse_args()
 
-    bsag = BSAG(config_path=args.config, global_config_path=args.global_config)
+    bsag = BSAG(config_path=args.config, global_config_path=args.global_config, step_defs=steps)
     if args.dry_run:
         print(bsag.config)
         sys.exit(0)
