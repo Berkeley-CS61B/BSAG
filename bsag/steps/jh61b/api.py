@@ -13,6 +13,7 @@ from ._types import PIECES_KEY, AssessmentPieces, BaseJh61bConfig
 
 
 class ApiCheckConfig(BaseJh61bConfig):
+    api_checker_class: str = "jh61b.grader.APIChecker"
     command_timeout: PositiveInt | None = None
 
 
@@ -59,7 +60,7 @@ class ApiCheck(BaseStepDefinition[ApiCheckConfig]):
 
         classpath = ":".join([str(config.grader_root), str(config.submission_root), os.environ.get("CLASSPATH", "")])
         bsagio.private.trace("Testing API")
-        api_test_command: list[str | Path] = ["java", "-classpath", classpath, "jh61b.grader.APIChecker"]
+        api_test_command: list[str | Path] = ["java", "-classpath", classpath, config.api_checker_class]
         api_test_command.extend(student_classes)
         bsagio.private.debug(list2cmdline(api_test_command))
 
