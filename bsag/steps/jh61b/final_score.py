@@ -67,6 +67,7 @@ class FinalScore(BaseStepDefinition[FinalScoreConfig]):
 
         final_score = total_score - total_penalty
         bsagio.private.info(f"Final score post-scaling: {final_score:.3f} / {config.max_points:.3f}")
+        res.score = final_score
 
         # Rescale Jh61bResults
         rescaled_tests: list[TestResult] = []

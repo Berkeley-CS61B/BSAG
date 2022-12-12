@@ -42,6 +42,10 @@ class LimitVelocity(BaseStepDefinition[LimitVelocityConfig]):
         return "gradescope.limit_velocity"
 
     @classmethod
+    def display_name(cls, config: LimitVelocityConfig) -> str:
+        return "Limit Velocity"
+
+    @classmethod
     def run(cls, bsagio: BSAGIO, config: LimitVelocityConfig) -> bool:
         data = bsagio.data
         subm_data: SubmissionMetadata = data[METADATA_KEY]

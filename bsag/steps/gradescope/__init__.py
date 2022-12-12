@@ -12,6 +12,7 @@ from ._types import (
     User,
     VisibilityEnum,
 )
+from .lateness import Lateness
 from .limit_velocity import LimitVelocity
 from .motd import Motd
 from .results import WriteResults
@@ -30,6 +31,7 @@ __all__ = [
     "TestResult",
     "User",
     "VisibilityEnum",
+    "Lateness",
     "LimitVelocity",
     "Motd",
     "WriteResults",

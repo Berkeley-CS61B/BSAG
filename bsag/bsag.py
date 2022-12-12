@@ -18,11 +18,12 @@ from bsag._types import (
 from bsag.bsagio import BSAGIO
 from bsag.steps.common import DisplayMessage
 from bsag.steps.external import CheckStyle
-from bsag.steps.gradescope import LimitVelocity, Motd, ReadSubMetadata, WriteResults
+from bsag.steps.gradescope import Lateness, LimitVelocity, Motd, ReadSubMetadata, WriteResults
 from bsag.steps.jh61b import ApiCheck, Assessment, CheckFiles, Compilation, DepCheck, FinalScore
 
 DEFAULT_STEP_DEFINITIONS: list[type[ParamBaseStep]] = [
     ReadSubMetadata,
+    Lateness,
     LimitVelocity,
     Motd,
     WriteResults,
@@ -134,10 +135,10 @@ class BSAG:
         execute_plan(self._config.execution_plan)
         execute_plan(self._config.teardown_plan)
 
-
     @property
     def config(self) -> RunConfig:
         return self._config
+
 
 def main(steps: list[type[ParamBaseStep]] | None = None) -> None:
     parser = ArgumentParser(description="A Better Simple AutoGrader")
