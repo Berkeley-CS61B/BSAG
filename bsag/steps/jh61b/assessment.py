@@ -46,10 +46,10 @@ class Assessment(BaseStepDefinition[AssessmentConfig]):
         bsagio.private.info(f"Testing {config.piece_name}...")
 
         java_properties = {
-            "asag.grader.classroot": config.grader_root,
-            "asag.submission.classroot": config.submission_root,
-            "asag.student.email": ",".join(s.email for s in sub_meta.users),
-            "asag.student.name": ",".join(s.name for s in sub_meta.users),
+            "bsag.grader.classroot": config.grader_root,
+            "bsag.submission.classroot": config.submission_root,
+            "bsag.student.email": ",".join(s.email for s in sub_meta.users),
+            "bsag.student.name": ",".join(s.name for s in sub_meta.users),
         }
         java_options = [f"-D{k}={v}" for k, v in java_properties.items()]
         java_options += config.java_options
