@@ -74,8 +74,8 @@ class FinalScore(BaseStepDefinition[FinalScoreConfig]):
         for piece, result in test_results.items():
             rescale = weighted_scores[piece].max_score / result.max_score if result.max_score > 0 else 0.0
             for test in result.tests:
-                test.score = rescale * test.score if test.score else None
-                test.max_score = rescale * test.max_score if test.max_score else None
+                test.score = rescale * test.score if test.score else 0.0
+                test.max_score = rescale * test.max_score if test.max_score else 0.0
                 rescaled_tests.append(test)
 
         rescaled_tests.sort(key=lambda t: t.number if t.number is not None else f"_{t.name}")
