@@ -50,7 +50,8 @@ class Compilation(BaseStepDefinition[CompilationConfig]):
             else:
                 bsagio.student.info("Success!")
 
-            bsagio.student.info(compile_result.output.strip())
-            bsagio.private.info("\n" + compile_result.output.strip())
+            if compile_result.output:
+                bsagio.student.info(compile_result.output.strip())
+                bsagio.private.info("\n" + compile_result.output.strip())
 
         return num_live_pieces == len(pieces.live_pieces)
