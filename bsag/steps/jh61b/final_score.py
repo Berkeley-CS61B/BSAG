@@ -43,7 +43,7 @@ class FinalScore(BaseStepDefinition[FinalScoreConfig]):
         weighted_scores: dict[str, Score] = {}
         for piece, score in subscores.items():
             weight = config.scoring.get(piece, 0)
-            max_subscore = weight / total_weight * score
+            max_subscore = weight / total_weight * config.max_points
             weighted_scores[piece] = Score(score * max_subscore, max_subscore)
 
         if config.scale_factor > 1.0:
