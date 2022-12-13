@@ -35,7 +35,7 @@ def private_formatter(record: loguru.Record) -> str:
     return (
         "<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | "
         "<level>{level: >8}</level> | "
-        f"[{name: >23}] | "
+        f"[{name: >19}] | "
         "<cyan>{file}</cyan>:<cyan>{line}</cyan> - "
         "<level>{message}</level>\n{exception}"
     )

@@ -34,7 +34,7 @@ class DepCheckConfig(BaseJh61bConfig):
 class DepCheck(BaseStepDefinition[DepCheckConfig]):
     @staticmethod
     def name() -> str:
-        return "jh61b.dependency_check"
+        return "jh61b.dep_check"
 
     @classmethod
     def display_name(cls, config: DepCheckConfig) -> str:

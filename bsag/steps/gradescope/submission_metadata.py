@@ -15,7 +15,7 @@ class SubMetadataConfig(BaseStepConfig):
 class ReadSubMetadata(BaseStepDefinition[SubMetadataConfig]):
     @staticmethod
     def name() -> str:
-        return "gradescope.submission_metadata"
+        return "gradescope.sub_info"
 
     @classmethod
     def display_name(cls, config: SubMetadataConfig) -> str:
