@@ -1,7 +1,5 @@
 from pathlib import Path
 
-from devtools import debug
-
 from bsag import BaseStepConfig, BaseStepDefinition
 from bsag.bsagio import BSAGIO
 
@@ -41,11 +39,10 @@ class WriteResults(BaseStepDefinition[ResultsConfig]):
         for log in bsagio.step_logs:
             if not log.log_chunks:
                 continue
-            debug(log)
             module_logs.append(
                 TestResult(
                     name=log.display_name,
-                    output="\n".join(log.log_chunks).strip(),
+                    output="".join(log.log_chunks).strip(),
                     score=log.score if log.score is None else round(log.score, digits),
                     status=TestCaseStatusEnum.PASSED if log.success else TestCaseStatusEnum.FAILED,
                 )
