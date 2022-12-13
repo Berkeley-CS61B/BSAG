@@ -32,5 +32,5 @@ class BSAGIO:
 
         student_sink = create_student_sink(self.step_logs)
         # Student logs are never formatted
-        logger.add(student_sink, filter=student_filter, format="{message}\n")
+        logger.add(student_sink, filter=student_filter, format="{message}")
         logger.add(sys.stdout, filter=private_filter, format=private_formatter)

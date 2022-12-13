@@ -42,7 +42,7 @@ class WriteResults(BaseStepDefinition[ResultsConfig]):
             module_logs.append(
                 TestResult(
                     name=log.display_name,
-                    output="\n".join(log.log_chunks),
+                    output="\n".join(log.log_chunks).strip(),
                     score=log.score if log.score is None else round(log.score, digits),
                     status=TestCaseStatusEnum.PASSED if log.success else TestCaseStatusEnum.FAILED,
                 )

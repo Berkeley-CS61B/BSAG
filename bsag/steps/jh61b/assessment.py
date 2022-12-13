@@ -95,10 +95,9 @@ class Assessment(BaseStepDefinition[AssessmentConfig]):
                     test_json = json.load(f)
                 results = Results.parse_obj(test_json)
                 test_results.extend(results.tests)
-            except json.JSONDecodeError as err:
+            except json.JSONDecodeError:
                 bsagio.private.error(f"Error decoding output for {assessment_class}")
-                bsagio.private.error(err.doc)
-                bsagio.private.error(result.output)
+                bsagio.private.error("\n" + result.output)
                 bsagio.student.error("Unexpected error while running assessment; details in staff logs.")
 
                 return False
