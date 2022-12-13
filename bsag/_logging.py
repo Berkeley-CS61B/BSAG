@@ -34,10 +34,10 @@ def private_formatter(record: loguru.Record) -> str:
         name = swc.name()
     return (
         "<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | "
-        "{level.icon} | "
+        "<level>{level: <8}</level> | "
         f"[{name}] |"
         "<cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> - "
-        "<level>{message}</level>'"
+        "<level>{message}</level>\n"
     )
 
 
