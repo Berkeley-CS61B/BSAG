@@ -31,7 +31,7 @@ class FinalScore(BaseStepDefinition[FinalScoreConfig]):
     @classmethod
     def run(cls, bsagio: BSAGIO, config: FinalScoreConfig) -> bool:
         res: Results = bsagio.data[RESULTS_KEY]
-        test_results: dict[str, Jh61bResults] = bsagio.data[TEST_RESULTS_KEY]
+        test_results: dict[str, Jh61bResults] = bsagio.data.get(TEST_RESULTS_KEY, {})
 
         subscores = {
             piece: result.score / result.max_score if result.max_score > 0 else 0.0
