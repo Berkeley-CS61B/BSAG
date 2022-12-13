@@ -17,7 +17,7 @@ class LatenessConfig(BaseStepConfig):
         cls,
         score_decay: dict[NonNegativeInt, float],
         values: dict[str, Any],
-    ):
+    ) -> dict[NonNegativeInt, float]:
         if values["halt_on_fail"] and score_decay:
             raise ValueError("`halt_on_fail` and `score_decay` cannot both be set")
         return score_decay

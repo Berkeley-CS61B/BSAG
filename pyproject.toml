@@ -52,7 +52,7 @@ strict = true
 plugins = ["pydantic.mypy"]
 
 [[tool.mypy.overrides]]
-# Pylance and mypy conflict here (error vs ignore). Wait for pathspec version bump to 0.10.3
+# Pylance and mypy conflict here (error vs ignore) with a partial unknown
 module = "bsag.steps.external.checkstyle_jar"
 warn_unused_ignores = false
 

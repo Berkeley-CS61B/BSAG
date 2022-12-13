@@ -29,7 +29,7 @@ def private_filter(record: loguru.Record) -> bool:
 def private_formatter(record: loguru.Record) -> str:
     swc: BaseStepWithConfig | None = record["extra"].get("swc")
     if swc is None:
-        name = record["file"]
+        name = record["file"].name
     else:
         name = swc.name()
     return (

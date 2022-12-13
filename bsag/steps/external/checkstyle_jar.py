@@ -2,7 +2,7 @@ import re
 from pathlib import Path
 from subprocess import list2cmdline
 
-import pathspec  # type: ignore
+import pathspec
 from pydantic import FilePath, PositiveInt
 
 from bsag import BaseStepConfig, BaseStepDefinition
@@ -32,7 +32,7 @@ class CheckStyle(BaseStepDefinition[CheckStyleConfig]):
     @classmethod
     def run(cls, bsagio: BSAGIO, config: CheckStyleConfig) -> bool:
         # Need a new release of pathspec for stubs
-        filespec: pathspec.PathSpec = pathspec.PathSpec.from_lines("gitwildmatch", config.pathspec)  # type: ignore
+        filespec: pathspec.PathSpec = pathspec.PathSpec.from_lines("gitwildmatch", config.pathspec)
         files = [Path(config.submission_root, f) for f in filespec.match_tree(config.submission_root)]  # type: ignore
         files.sort()
 
