@@ -35,7 +35,7 @@ class Compilation(BaseStepDefinition[CompilationConfig]):
             compile_command.extend(["-sourcepath", f"{config.grader_root}:{config.submission_root}"])
             compile_command.extend(config.compile_flags)
             compile_command.extend(piece.assessment_files)
-            bsagio.private.debug(list2cmdline(compile_command))
+            bsagio.private.debug("\n" + list2cmdline(compile_command))
 
             compile_result = run_subprocess(compile_command, timeout=config.command_timeout)
 
@@ -47,6 +47,8 @@ class Compilation(BaseStepDefinition[CompilationConfig]):
                 bsagio.both.error("=========== COMPILATION ERROR =============")
                 pieces.failed_pieces[name] = FailedPiece(reason="compilation failed")
                 del pieces.live_pieces[name]
+            else:
+                bsagio.student.info("Success!")
 
             bsagio.student.info(compile_result.output.strip())
             bsagio.private.info("\n" + compile_result.output.strip())

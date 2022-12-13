@@ -49,7 +49,7 @@ class ApiCheck(BaseStepDefinition[ApiCheckConfig]):
         bsagio.private.trace("Compiling API checkers")
         api_compile_command = ["javac", "-encoding", "utf8"]
         api_compile_command.extend(["-sourcepath", f"{config.grader_root}:{config.submission_root}"])
-        bsagio.private.debug(list2cmdline(api_compile_command))
+        bsagio.private.debug("\n" + list2cmdline(api_compile_command))
         compile_result = run_subprocess(api_compile_command, timeout=config.command_timeout)
         if compile_result.timed_out:
             bsagio.both.error("API compilation timed out.")
@@ -62,7 +62,7 @@ class ApiCheck(BaseStepDefinition[ApiCheckConfig]):
         bsagio.private.trace("Testing API")
         api_test_command: list[str | Path] = ["java", "-classpath", classpath, config.api_checker_class]
         api_test_command.extend(student_classes)
-        bsagio.private.debug(list2cmdline(api_test_command))
+        bsagio.private.debug("\n" + list2cmdline(api_test_command))
 
         api_test_result = run_subprocess(api_test_command, timeout=config.command_timeout)
         passed = True

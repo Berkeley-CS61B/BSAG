@@ -49,7 +49,7 @@ class DepCheck(BaseStepDefinition[DepCheckConfig]):
             "-verbose:class",
             Path(config.submission_root, "**.class"),
         ]
-        bsagio.private.debug(list2cmdline(jdeps_commmand))
+        bsagio.private.debug("\n" + list2cmdline(jdeps_commmand))
         jdeps_result = run_subprocess(jdeps_commmand, timeout=config.command_timeout)
         if jdeps_result.timed_out:
             bsagio.both.error("Timed out during illegal dependency check.")

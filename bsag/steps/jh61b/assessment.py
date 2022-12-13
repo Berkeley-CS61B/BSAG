@@ -66,7 +66,7 @@ class Assessment(BaseStepDefinition[AssessmentConfig]):
             assessment_command += ["-classpath", classpath, assessment_class]
             assessment_command += ["--secure", "--json", "--outfile", outfile]
 
-            bsagio.private.debug(list2cmdline(assessment_command))
+            bsagio.private.debug("\n" + list2cmdline(assessment_command))
 
             # Grader may use relative paths, so use cwd
             result = run_subprocess(
