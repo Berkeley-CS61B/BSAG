@@ -43,7 +43,7 @@ class User(BaseModel):
 
 class Assignment(BaseModel):
     due_date: datetime
-    group_size: int
+    group_size: int | None
     group_submission: bool
     id: int
     course_id: int
