@@ -27,11 +27,15 @@ def private_filter(record: loguru.Record) -> bool:
 
 
 def private_formatter(record: loguru.Record) -> str:
-    swc: BaseStepWithConfig = record["extra"]["swc"]
+    swc: BaseStepWithConfig | None = record["extra"].get("swc")
+    if swc is None:
+        name = record["file"]
+    else:
+        name = swc.name()
     return (
         "<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | "
         "{level.icon} | "
-        f"[{swc.name()}] |"
+        f"[{name}] |"
         "<cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> - "
         "<level>{message}</level>'"
     )
