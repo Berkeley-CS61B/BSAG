@@ -12,6 +12,7 @@ pytz = "*"
 PyYAML = "^6.0"
 loguru = "^0.6.0"
 pathspec = "^0.10.2"
+devtools = "^0.10.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "*"
@@ -23,6 +24,7 @@ ruff = "^0.0"
 pre-commit = "^2.20.0"
 pyupgrade = "^3.2"
 loguru-mypy = "^0.0.4"
+devtools = "^0.10.0"
 
 [build-system]
 requires = ["poetry-core"]

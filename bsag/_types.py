@@ -30,7 +30,7 @@ class BaseStepDefinition(ABC, Generic[C_co]):
 
     @classmethod
     @abstractmethod
-    def run(cls, bsagio: BSAGIO, config: C_co) -> bool:  # type: ignore
+    def run(cls, bsagio: "BSAGIO", config: C_co) -> bool:  # type: ignore
         ...
 
 
@@ -42,7 +42,7 @@ class StepWithConfig(Generic[C_co]):
     def name(self) -> str:
         return self.StepType.name()
 
-    def run(self, bsagio: BSAGIO) -> bool:
+    def run(self, bsagio: "BSAGIO") -> bool:
         return self.StepType.run(bsagio, self.config)
 
     def display_name(self) -> str:

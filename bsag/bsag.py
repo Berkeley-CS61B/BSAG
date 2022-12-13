@@ -4,6 +4,7 @@ from typing import Any, get_args
 
 import yaml
 from loguru import logger
+from devtools import debug
 
 from bsag._logging import StepLogs
 from bsag._types import (
@@ -100,7 +101,7 @@ class BSAG:
 
             StepDefType = self._step_defs[step_name]
             StepConfigType: type[BaseStepConfig]
-            StepConfigType = get_args(StepDefType)[0]
+            StepConfigType = get_args(StepDefType.__orig_bases__[0])[0]  # type: ignore
             # Prioritize specific configs over global
             step_config = self._global_config.global_settings.get(step_name, {}) | step_config
 
@@ -149,7 +150,7 @@ def main(steps: list[type[ParamBaseStep]] | None = None) -> None:
 
     bsag = BSAG(config_path=args.config, global_config_path=args.global_config, step_defs=steps)
     if args.dry_run:
-        print(bsag.config)
+        debug(bsag.config)
         sys.exit(0)
 
     bsag.run()
