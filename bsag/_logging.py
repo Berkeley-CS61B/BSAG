@@ -32,15 +32,12 @@ def private_formatter(record: loguru.Record) -> str:
         name = record["file"]
     else:
         name = swc.name()
-    excp = ""
-    if record["exception"]:
-        excp = record["exception"]
     return (
         "<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | "
         "<level>{level: >8}</level> | "
-        f"[{name: >21}] | "
-        "<cyan>{function}</cyan>:<cyan>{line}</cyan> - "
-        f"<level>{{message}}</level>{excp}\n"
+        f"[{name: >23}] | "
+        "<cyan>{file}</cyan>:<cyan>{line}</cyan> - "
+        "<level>{message}</level>\n{exception}"
     )
 
 
