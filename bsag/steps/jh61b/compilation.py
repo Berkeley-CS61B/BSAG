@@ -48,6 +48,6 @@ class Compilation(BaseStepDefinition[CompilationConfig]):
                 pieces.failed_pieces[name] = FailedPiece(reason="compilation failed")
                 del pieces.live_pieces[name]
 
-            bsagio.student.warning(compile_result.output.strip())
+            bsagio.both.warning("\n" + compile_result.output.strip())
 
         return num_live_pieces == len(pieces.live_pieces)
