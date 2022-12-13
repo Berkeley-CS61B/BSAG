@@ -64,7 +64,7 @@ class TestResult(BaseModel):
     max_score: float | None = None
     status: TestCaseStatusEnum | None = None
     name: str | None = None
-    number: float | None = None
+    number: str | None = None
     output: str | None = None
     tags: list[str] = []
     visibility: VisibilityEnum | None = None
