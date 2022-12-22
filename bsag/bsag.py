@@ -3,8 +3,8 @@ from argparse import ArgumentParser
 from typing import Any, get_args
 
 import yaml
-from loguru import logger
 from devtools import debug
+from loguru import logger
 
 from bsag._logging import StepLogs
 from bsag._types import (
@@ -45,13 +45,14 @@ class BSAG:
         config_path: str,
         global_config_path: str | None = None,
         step_defs: list[type[ParamBaseStep]] | None = None,
+        colorize: bool = False,
     ):
         if not step_defs:
             step_defs = []
         self._step_defs = {m.name(): m for m in DEFAULT_STEP_DEFINITIONS + step_defs}
         self._global_config = self._load_yaml_global_config(global_config_path)
         self._config = self._load_yaml_config(config_path)
-        self._bsagio = BSAGIO()
+        self._bsagio = BSAGIO(colorize)
 
     def _load_yaml_global_config(self, global_config_path: str | None) -> GlobalConfig:
         if global_config_path:
@@ -146,9 +147,10 @@ def main(steps: list[type[ParamBaseStep]] | None = None) -> None:
     parser.add_argument("--dry-run", action="store_true", help="Parse config, but don't run.")
     parser.add_argument("--global-config", help="Path to global config file")
     parser.add_argument("--config", required=True, help="Path to config file")
+    parser.add_argument("--colorize", action="store_true", help="Colorize private logs")
     args = parser.parse_args()
 
-    bsag = BSAG(config_path=args.config, global_config_path=args.global_config, step_defs=steps)
+    bsag = BSAG(config_path=args.config, global_config_path=args.global_config, step_defs=steps, colorize=args.colorize)
     if args.dry_run:
         debug(bsag.config)
         sys.exit(0)
