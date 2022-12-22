@@ -7,7 +7,7 @@ from pydantic import PositiveInt
 
 from bsag import BaseStepDefinition
 from bsag.bsagio import BSAGIO
-from bsag.steps.gradescope import METADATA_KEY, Results, SubmissionMetadata, TestResult
+from bsag.steps.gradescope import METADATA_KEY, Results, SubmissionMetadata, TestCaseStatusEnum, TestResult
 from bsag.utils.java import path_to_classname
 from bsag.utils.subprocess import run_subprocess
 
@@ -18,6 +18,8 @@ class AssessmentConfig(BaseJh61bConfig):
     piece_name: str
     java_options: list[str] = []
     command_timeout: PositiveInt | None = None
+    require_full_score: bool = False
+    aggregated_number: str | None = None
 
 
 class Assessment(BaseStepDefinition[AssessmentConfig]):
@@ -112,8 +114,42 @@ class Assessment(BaseStepDefinition[AssessmentConfig]):
 
         if TEST_RESULTS_KEY not in bsagio.data:
             bsagio.data[TEST_RESULTS_KEY] = {}
+
+        if config.require_full_score:
+            if score != max_score:
+                bsagio.private.info(f"{config.piece_name} requires full score to receive credit.")
+                score = 0
+
+            failed_tests: list[str] = []
+            for test in test_results:
+                if test.score != test.max_score:
+                    test.status = TestCaseStatusEnum.FAILED
+                    failed_tests.append(
+                        "- " + (test.number if test.number else "") + (test.name if test.name else "Unnamed test")
+                    )
+                test.score = None
+                test.max_score = None
+
+            output_chunks = [
+                f"{config.piece_name} requires full score to receive credit.",
+            ]
+            if failed_tests:
+                output_chunks.append("Failing the following tests:")
+                output_chunks.extend(failed_tests)
+
+            test_results.insert(
+                0,
+                TestResult(
+                    name=config.piece_name,
+                    number=config.aggregated_number,
+                    score=score,
+                    max_score=max_score,
+                    output="\n".join(output_chunks),
+                ),
+            )
+
         bsagio.data[TEST_RESULTS_KEY][config.piece_name] = Jh61bResults(
             score=score, max_score=max_score, tests=test_results
         )
 
-        return True
+        return not (config.require_full_score and score != max_score)
