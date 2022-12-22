@@ -127,7 +127,7 @@ class BSAG:
             for swc in plan:
                 self._bsagio.step_logs.append(StepLogs(name=swc.name(), display_name=swc.display_name()))
                 with logger.contextualize(swc=swc):
-                    self._bsagio.private.info(f"Starting {swc.StepType.name()}")
+                    self._bsagio.private.trace(f"Starting {swc.StepType.name()}")
                     step_result = swc.run(self._bsagio)
                     if step_result:
                         self._bsagio.step_logs[-1].success = True
