@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 
 
@@ -30,12 +29,8 @@ def class_matches(pat: str, cl: str) -> bool:
     return len(pat_chunks) == len(cl_chunks)
 
 
-def path_to_classname(path: str | Path) -> str:
+def path_to_classname(path: Path) -> str:
     """
-    Converts a filesystem path into a java classname
+    Converts a filesystem path into a java classname. Intended to be used on relative paths.
     """
-    if isinstance(path, Path):
-        stem = str(path.stem)
-    else:
-        stem = os.path.splitext(path)[0]
-    return stem.replace("/", ".")
+    return str(path).replace("/", ".").removesuffix(".java")

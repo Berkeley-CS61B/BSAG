@@ -60,7 +60,7 @@ class Assessment(BaseStepDefinition[AssessmentConfig]):
         test_results: list[TestResult] = []
         _, outfile = tempfile.mkstemp(suffix=".json", prefix="assess")
         for assessment_file in piece.assessment_files:
-            assessment_class = path_to_classname(assessment_file)
+            assessment_class = path_to_classname(assessment_file.relative_to(config.grader_root))
 
             assessment_command = ["java"] + java_options
             assessment_command += ["-classpath", classpath, assessment_class]
