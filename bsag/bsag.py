@@ -46,13 +46,14 @@ class BSAG:
         global_config_path: str | None = None,
         step_defs: list[type[ParamBaseStep]] | None = None,
         colorize: bool = False,
+        log_level: str = "DEBUG",
     ):
         if not step_defs:
             step_defs = []
         self._step_defs = {m.name(): m for m in DEFAULT_STEP_DEFINITIONS + step_defs}
         self._global_config = self._load_yaml_global_config(global_config_path)
         self._config = self._load_yaml_config(config_path)
-        self._bsagio = BSAGIO(colorize)
+        self._bsagio = BSAGIO(colorize_private=colorize, log_level_private=log_level)
 
     def _load_yaml_global_config(self, global_config_path: str | None) -> GlobalConfig:
         if global_config_path:
@@ -148,9 +149,22 @@ def main(steps: list[type[ParamBaseStep]] | None = None) -> None:
     parser.add_argument("--global-config", help="Path to global config file")
     parser.add_argument("--config", required=True, help="Path to config file")
     parser.add_argument("--colorize", action="store_true", help="Colorize private logs")
+    parser.add_argument(
+        "--log-level",
+        default="DEBUG",
+        choices=("TRACE", "DEBUG", "INFO", "SUCCESS", "WARNING", "ERROR", "CRITICAL"),
+        type=str.upper,
+        help="Customize private log level",
+    )
     args = parser.parse_args()
 
-    bsag = BSAG(config_path=args.config, global_config_path=args.global_config, step_defs=steps, colorize=args.colorize)
+    bsag = BSAG(
+        config_path=args.config,
+        global_config_path=args.global_config,
+        step_defs=steps,
+        colorize=args.colorize,
+        log_level=args.log_level,
+    )
     if args.dry_run:
         debug(bsag.config)
         sys.exit(0)
