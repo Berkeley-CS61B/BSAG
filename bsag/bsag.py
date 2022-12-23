@@ -1,11 +1,14 @@
+import itertools
 import sys
 from argparse import ArgumentParser
 from typing import Any, get_args
 
+import pluggy  # type: ignore
 import yaml
 from devtools import debug
 from loguru import logger
 
+import bsag.plugin
 from bsag._logging import StepLogs
 from bsag._types import (
     BaseStepConfig,
@@ -17,26 +20,38 @@ from bsag._types import (
     StepWithConfig,
 )
 from bsag.bsagio import BSAGIO
+from bsag.plugin import PROJECT_NAME, hookimpl
 from bsag.steps.common import DisplayMessage
 from bsag.steps.external import CheckStyle
 from bsag.steps.gradescope import Lateness, LimitVelocity, Motd, ReadSubMetadata, WriteResults
 from bsag.steps.jh61b import ApiCheck, Assessment, CheckFiles, Compilation, DepCheck, FinalScore
 
-DEFAULT_STEP_DEFINITIONS: list[type[ParamBaseStep]] = [
-    ReadSubMetadata,
-    Lateness,
-    LimitVelocity,
-    Motd,
-    WriteResults,
-    ApiCheck,
-    Assessment,
-    CheckFiles,
-    Compilation,
-    DepCheck,
-    FinalScore,
-    DisplayMessage,
-    CheckStyle,
-]
+
+def get_plugin_manager():
+    plugin_manager = pluggy.PluginManager(PROJECT_NAME)
+    plugin_manager.add_hookspecs(bsag.plugin)  # type: ignore
+    plugin_manager.load_setuptools_entrypoints(PROJECT_NAME)  # type: ignore
+    plugin_manager.register(sys.modules[__name__])  # type: ignore
+    return plugin_manager
+
+
+@hookimpl  # type: ignore
+def bsag_load_step_defs() -> list[type[ParamBaseStep]]:
+    return [
+        ReadSubMetadata,
+        Lateness,
+        LimitVelocity,
+        Motd,
+        WriteResults,
+        ApiCheck,
+        Assessment,
+        CheckFiles,
+        Compilation,
+        DepCheck,
+        FinalScore,
+        DisplayMessage,
+        CheckStyle,
+    ]
 
 
 class BSAG:
@@ -50,7 +65,9 @@ class BSAG:
     ):
         if not step_defs:
             step_defs = []
-        self._step_defs = {m.name(): m for m in DEFAULT_STEP_DEFINITIONS + step_defs}
+        pm = get_plugin_manager()
+        plugin_steps: list[type[ParamBaseStep]] = list(itertools.chain(*pm.hook.bsag_load_step_defs()))  # type: ignore
+        self._step_defs = {m.name(): m for m in plugin_steps + step_defs}
         self._global_config = self._load_yaml_global_config(global_config_path)
         self._config = self._load_yaml_config(config_path)
         self._bsagio = BSAGIO(colorize_private=colorize, log_level_private=log_level)

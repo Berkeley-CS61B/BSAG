@@ -13,6 +13,7 @@ PyYAML = "^6.0"
 loguru = "^0.6.0"
 pathspec = "^0.10.2"
 devtools = "^0.10.0"
+pluggy = "^1.0.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "*"
@@ -24,7 +25,6 @@ ruff = "^0.0"
 pre-commit = "^2.20.0"
 pyupgrade = "^3.2"
 loguru-mypy = "^0.0.4"
-devtools = "^0.10.0"
 
 [build-system]
 requires = ["poetry-core"]
@@ -50,10 +50,7 @@ python_version = "3.10"
 show_error_codes = true
 strict = true
 plugins = ["pydantic.mypy"]
-
-[[tool.mypy.overrides]]
-# Pylance and mypy conflict here (error vs ignore) with a partial unknown
-module = "bsag.steps.external.checkstyle_jar"
+# Pylance strict and mypy conflict throughought (error vs ignore) with partial unknowns
 warn_unused_ignores = false
 
 [tool.pylint.'MESSAGES CONTROL']
@@ -64,4 +61,4 @@ disable = "C0114, C0115, C0116, C0103, R0903, R0914"
 
 [tool.ruff]
 line-length = 120
-extend-select = ["U", "Q"]
+extend-select = ["UP", "Q"]

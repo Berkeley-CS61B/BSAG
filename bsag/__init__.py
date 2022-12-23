@@ -1,8 +1,10 @@
-from . import bsagio
-from ._types import BaseStepConfig, BaseStepDefinition
+from . import bsagio, plugin
+from ._types import BaseStepConfig, BaseStepDefinition, ParamBaseStep
 
 __all__ = [
     "BaseStepConfig",
     "BaseStepDefinition",
+    "ParamBaseStep",
     "bsagio",
+    "plugin",
 ]
