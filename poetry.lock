@@ -378,7 +378,7 @@ setuptools = "*"
 name = "pathspec"
 version = "0.10.3"
 description = "Utility library for gitignore style pattern matching of file paths."
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
@@ -849,4 +849,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "7af68ec4c2bdf56ec9b8d855e16dbaa31b7eadf9546b01689453a38d6f9feef8"
+content-hash = "fe0a5bcddecdb72bdf22283e56645b9079e3088dece8fc4705b89459acf5d9e7"
