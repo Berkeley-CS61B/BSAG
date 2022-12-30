@@ -5,6 +5,10 @@ description = "A Better Simple AutoGrader"
 authors = ["CS 61B Staff <cs61b@berkeley.edu>"]
 readme = "README.md"
 
+packages = [
+  { include = "bsag" }
+]
+
 [tool.poetry.dependencies]
 python = "^3.10"
 pydantic = "^1.10.4"
