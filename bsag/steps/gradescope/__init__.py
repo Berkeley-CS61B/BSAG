@@ -14,7 +14,6 @@ from ._types import (
 )
 from .lateness import Lateness
 from .limit_velocity import LimitVelocity
-from .motd import Motd
 from .results import WriteResults
 from .submission_metadata import ReadSubMetadata
 
@@ -33,7 +32,6 @@ __all__ = [
     "VisibilityEnum",
     "Lateness",
     "LimitVelocity",
-    "Motd",
     "WriteResults",
     "ReadSubMetadata",
 ]
