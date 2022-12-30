@@ -37,7 +37,7 @@ class SubmissionMethodEnum(str, Enum):
 
 class User(BaseModel):
     email: str
-    id: int
+    id: int  # noqa
     name: str
 
 
@@ -45,7 +45,7 @@ class Assignment(BaseModel):
     due_date: datetime
     group_size: int | None
     group_submission: bool
-    id: int
+    id: int  # noqa
     course_id: int
     late_due_date: datetime | None
     release_date: datetime
@@ -90,7 +90,7 @@ class PreviousSubmission(BaseModel):
 
 
 class SubmissionMetadata(BaseModel):
-    id: int
+    id: int  # noqa
     created_at: datetime
     assignment: Assignment
     submission_method: SubmissionMethodEnum

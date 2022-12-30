@@ -139,7 +139,8 @@ class BSAG:
                     if step_result:
                         self._bsagio.step_logs[-1].success = True
                     elif swc.config.halt_on_fail:
-                        raise RuntimeError(f"Step {swc.StepType.name()} failed and halts on failure.")
+                        msg = f"Step {swc.StepType.name()} failed and halts on failure."
+                        raise RuntimeError(msg)
                     self._bsagio.private.trace(f"Finished {swc.StepType.name()}")
 
         execute_plan(self._config.execution_plan)

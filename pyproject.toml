@@ -64,4 +64,4 @@ disable = "C0114, C0115, C0116, C0103, R0903, R0914"
 
 [tool.ruff]
 line-length = 120
-extend-select = ["UP", "Q"]
+extend-select = ["UP", "Q", "EM", "I", "B", "A", "C4", "ISC", "SIM"]
