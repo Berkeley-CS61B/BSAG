@@ -4,7 +4,7 @@ from pydantic import BaseModel, PositiveInt, validator
 
 from bsag import BaseStepConfig, BaseStepDefinition
 from bsag.bsagio import BSAGIO
-from bsag.utils.datetime import ZERO_TD, format_datetime
+from bsag.utils.datetimes import ZERO_TD, format_datetime
 
 from ._types import METADATA_KEY, SubmissionMetadata
 
