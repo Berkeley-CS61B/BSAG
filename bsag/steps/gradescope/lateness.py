@@ -11,6 +11,7 @@ from ._types import METADATA_KEY, RESULTS_KEY, Results, SubmissionMetadata
 class LatenessConfig(BaseStepConfig):
     grace_period: NonNegativeInt = 0
     score_decay: dict[PositiveInt, float] = {}  # Start times
+    min_lateness_score: NonNegativeInt = 0
 
     @validator("score_decay")
     def halt_on_fail__score_decay_mutually_exclusive(
@@ -41,7 +42,7 @@ class Lateness(BaseStepDefinition[LatenessConfig]):
         lateness = max(0, (subm_data.created_at - subm_data.assignment.due_date).total_seconds())
         graced_lateness = max(0, lateness - config.grace_period)
 
-        bsagio.private.debug("Due: " + str(subm_data.assignment.due_date))
+        bsagio.private.debug("Due:       " + str(subm_data.assignment.due_date))
         bsagio.private.debug("Submitted: " + str(subm_data.created_at))
 
         if lateness == 0:
@@ -63,12 +64,15 @@ class Lateness(BaseStepDefinition[LatenessConfig]):
                 penalty = config.score_decay[k]
 
         if res.score:
-            bsagio.both.info(f"Your score on this assignment was {res.score:.2f}")
+            bsagio.both.info(f"Your score on this assignment was {res.score:.3f}")
             res.score *= 1 - penalty
+            res.score = max(res.score, config.min_lateness_score)
             bsagio.both.info(
-                f"After applying a lateness penalty of {penalty * 100:.2f}%, your final score is {res.score:.2f}"
+                f"After applying a lateness penalty of {penalty * 100:.2f}%, your final score is {res.score:.3f}"
             )
         else:
             bsagio.private.error("Cannot apply a lateness penalty without an overall score.")
+            bsagio.private.warning(f"Using minimum score {config.min_lateness_score}")
+            res.score = config.min_lateness_score
 
         return False
