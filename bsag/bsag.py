@@ -61,6 +61,7 @@ class BSAG:
         self._global_config = self._load_yaml_global_config(global_config_path)
         self._config = self._load_yaml_config(config_path)
         self._bsagio = BSAGIO(colorize_private=colorize, log_level_private=log_level)
+        self._colorize = colorize
 
     def _load_yaml_global_config(self, global_config_path: str | None) -> GlobalConfig:
         if global_config_path:
@@ -135,6 +136,8 @@ class BSAG:
                 self._bsagio.step_logs.append(StepLogs(name=swc.name(), display_name=swc.display_name()))
                 with logger.contextualize(swc=swc):
                     self._bsagio.private.trace(f"Starting {swc.StepType.name()}")
+                    debug_config = debug.format(swc.config).str(highlight=self._colorize)
+                    self._bsagio.private.trace(f"Using config:\n{debug_config}")
                     step_result = swc.run(self._bsagio)
                     if step_result:
                         self._bsagio.step_logs[-1].success = True
