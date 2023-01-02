@@ -24,7 +24,9 @@ class WriteResults(BaseStepDefinition[ResultsConfig]):
     def run(cls, bsagio: BSAGIO, config: ResultsConfig) -> bool:
         res: Results = bsagio.data[RESULTS_KEY]
         if not res.validate_score():
-            return False
+            bsagio.private.warning("Not all tests have a score and top-level score not set.")
+            bsagio.private.warning("Defaulting top-level score to 0 to produce `results.json`.")
+            res.score = 0
 
         digits = config.round_tests_to_digits
         if res.score is not None:
