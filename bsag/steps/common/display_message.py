@@ -12,7 +12,7 @@ class DisplayMessageConfig(BaseStepConfig):
 class DisplayMessage(BaseStepDefinition[DisplayMessageConfig]):
     @staticmethod
     def name() -> str:
-        return "common.display_message"
+        return "display_message"
 
     @classmethod
     def display_name(cls, config: DisplayMessageConfig) -> str:
