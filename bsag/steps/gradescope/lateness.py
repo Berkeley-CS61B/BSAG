@@ -1,6 +1,6 @@
 from typing import Any
 
-from pydantic import NonNegativeInt, PositiveInt, validator
+from pydantic import NonNegativeInt, NonNegativeFloat, PositiveInt, validator
 
 from bsag import BaseStepConfig, BaseStepDefinition
 from bsag.bsagio import BSAGIO
@@ -11,7 +11,7 @@ from ._types import METADATA_KEY, RESULTS_KEY, Results, SubmissionMetadata
 class LatenessConfig(BaseStepConfig):
     grace_period: NonNegativeInt = 0
     score_decay: dict[PositiveInt, float] = {}  # Start times
-    min_lateness_score: NonNegativeInt = 0
+    min_lateness_score: NonNegativeFloat = 0
 
     @validator("score_decay")
     def halt_on_fail__score_decay_mutually_exclusive(
