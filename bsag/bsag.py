@@ -140,11 +140,16 @@ class BSAG:
                         self._bsagio.step_logs[-1].success = True
                     elif swc.config.halt_on_fail:
                         msg = f"Step {swc.StepType.name()} failed and halts on failure."
+                        # This is a known exception, so kill the traceback
+                        sys.tracebacklimit = 0
                         raise RuntimeError(msg)
                     self._bsagio.private.trace(f"Finished {swc.StepType.name()}")
 
+        old_tb = getattr(sys, "tracebacklimit", 1000)
         execute_plan(self._config.execution_plan)
+        sys.tracebacklimit = old_tb
         execute_plan(self._config.teardown_plan)
+        sys.tracebacklimit = old_tb
 
     @property
     def config(self) -> RunConfig:
