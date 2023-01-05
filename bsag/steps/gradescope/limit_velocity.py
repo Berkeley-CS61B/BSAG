@@ -1,8 +1,8 @@
 from datetime import datetime, timedelta
 from typing import Any
 
-from pytz import timezone
 from pydantic import BaseModel, PositiveInt, validator
+from pytz import timezone
 
 from bsag import BaseStepConfig, BaseStepDefinition
 from bsag.bsagio import BSAGIO
@@ -113,7 +113,9 @@ class LimitVelocity(BaseStepDefinition[LimitVelocityConfig]):
 
         bsagio.student.info("")
         bsagio.student.info(f"Submissions with scores {config.ignore_scores_below} or lower do not consume tokens.")
-        bsagio.student.info(f"This assignment's tokens recharge every {active_window.recharge_time} seconds.")
+        bsagio.student.info(
+            f"This assignment's tokens recharge every {active_window.recharge_time.total_seconds()} seconds."
+        )
 
         if w_idx + 1 < len(windows):
             next_window = windows[w_idx + 1]

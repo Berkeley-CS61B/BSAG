@@ -1,6 +1,6 @@
 from typing import Any
 
-from pydantic import NonNegativeInt, NonNegativeFloat, PositiveInt, validator
+from pydantic import NonNegativeFloat, NonNegativeInt, PositiveInt, validator
 
 from bsag import BaseStepConfig, BaseStepDefinition
 from bsag.bsagio import BSAGIO
