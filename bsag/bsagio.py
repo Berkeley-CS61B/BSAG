@@ -18,6 +18,7 @@ class BSAGIO:
         # TODO: verify data entries by changing it to Pydantic create_model and asking models for fields?
         self.data: dict[str, Any] = {}
         self.step_logs: list[StepLogs] = []
+        self.colorize_private = colorize_private
 
         self.student = logger.bind(visibility=LogVisibility.LOG_STUDENT)
         self.private = logger.bind(visibility=LogVisibility.LOG_PRIVATE)

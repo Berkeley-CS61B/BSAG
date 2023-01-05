@@ -1,5 +1,6 @@
 from pathlib import Path
 
+from devtools import debug
 from pydantic import FilePath
 
 from bsag import BaseStepConfig, BaseStepDefinition
@@ -27,4 +28,9 @@ class ReadSubMetadata(BaseStepDefinition[SubMetadataConfig]):
         sub_metadata = SubmissionMetadata.parse_file(config.submission_metatada_path)
         data[METADATA_KEY] = sub_metadata
         data[RESULTS_KEY] = Results()
+
+        bsagio.private.trace(
+            "Submission metadata:\n" + debug.format(sub_metadata).str(highlight=bsagio.colorize_private)
+        )
+
         return True
