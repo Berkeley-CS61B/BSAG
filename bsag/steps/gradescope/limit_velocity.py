@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 
+from pytz import timezone
 from pydantic import BaseModel, PositiveInt, validator
 
 from bsag import BaseStepConfig, BaseStepDefinition
@@ -56,7 +57,7 @@ class LimitVelocity(BaseStepDefinition[LimitVelocityConfig]):
 
         windows = [
             Window(
-                start_time=datetime.utcfromtimestamp(0),
+                start_time=datetime.utcfromtimestamp(0).astimezone(timezone(config.time_zone)),
                 max_tokens=1,
                 recharge_time=ZERO_TD,
             )
