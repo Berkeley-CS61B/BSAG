@@ -30,11 +30,12 @@ class LimitVelocityConfig(BaseStepConfig):
     windows: list[Window]
 
     @validator("windows")
-    def windows_must_be_strictly_asc(cls, windows: list[Window]) -> None:
+    def windows_must_be_strictly_asc(cls, windows: list[Window]) -> list[Window]:
         for i in range(len(windows) - 1):
             if windows[i + 1].recharge_time - windows[i].recharge_time <= ZERO_TD:
                 msg = "Window start times not strictly increasing"
                 raise ValueError(msg)
+        return windows
 
 
 class LimitVelocity(BaseStepDefinition[LimitVelocityConfig]):
