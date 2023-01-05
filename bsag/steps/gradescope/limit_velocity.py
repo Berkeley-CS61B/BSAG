@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from typing import Any
 
 from pytz import timezone
 from pydantic import BaseModel, PositiveInt, validator
@@ -37,6 +38,13 @@ class LimitVelocityConfig(BaseStepConfig):
                 msg = "Window start times not strictly increasing"
                 raise ValueError(msg)
         return windows
+
+    @validator("windows", each_item=True)
+    def windows_must_be_offset_aware(cls, window: Window, values: dict[str, Any]) -> Window:
+        config_tz = timezone(values["time_zone"])
+        if not window.start_time.tzinfo:
+            window.start_time = window.start_time.astimezone(config_tz)
+        return window
 
 
 class LimitVelocity(BaseStepDefinition[LimitVelocityConfig]):
