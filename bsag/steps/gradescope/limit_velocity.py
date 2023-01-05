@@ -93,7 +93,7 @@ class LimitVelocity(BaseStepDefinition[LimitVelocityConfig]):
         )
         bsagio.student.info(
             f"The current limiting scheme for this assignment is a maximum of {active_window.max_tokens}, each "
-            f" recharging after {active_window.recharge_time} seconds."
+            f"recharging after {int(active_window.recharge_time.total_seconds())} seconds."
         )
         bsagio.student.info("")
 
@@ -105,6 +105,7 @@ class LimitVelocity(BaseStepDefinition[LimitVelocityConfig]):
 
         bsagio.student.info("")
         bsagio.student.info("Tokens are currently consumed by:")
+        bsagio.student.info("")
         for i, sub_time in enumerate(token_submissions_times[::-1]):
             sub_msg = "* Submission at " + format_datetime(sub_time, config.time_zone, config.time_format)
             if i == 0:
@@ -113,15 +114,13 @@ class LimitVelocity(BaseStepDefinition[LimitVelocityConfig]):
 
         bsagio.student.info("")
         bsagio.student.info(f"Submissions with scores {config.ignore_scores_below} or lower do not consume tokens.")
-        bsagio.student.info(
-            f"This assignment's tokens recharge every {active_window.recharge_time.total_seconds()} seconds."
-        )
 
         if w_idx + 1 < len(windows):
             next_window = windows[w_idx + 1]
             bsagio.student.info(
                 f"At {next_window.start_time}, the velocity limiting will change to a maximum of "
-                f"{next_window.max_tokens}, each recharging after {next_window.recharge_time} seconds."
+                f"{next_window.max_tokens}, each recharging after {int(next_window.recharge_time.total_seconds())} "
+                "seconds."
             )
 
         if w_idx + 1 < len(windows) and windows[w_idx + 1].start_time < recharge_at and windows[w_idx + 1].reset_tokens:
