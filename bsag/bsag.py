@@ -107,6 +107,7 @@ class BSAG:
 
             if step_name not in self._step_defs:
                 print(f"Step `{step_name}` not found", file=sys.stderr)
+                print(f"Available steps: {list(self._step_defs.keys())}")
                 sys.exit(1)
 
             StepDefType = self._step_defs[step_name]
