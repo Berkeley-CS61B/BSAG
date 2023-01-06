@@ -46,6 +46,7 @@ class WriteResults(BaseStepDefinition[ResultsConfig]):
                     name=log.display_name,
                     output="".join(log.log_chunks).strip(),
                     score=log.score if log.score is None else round(log.score, digits),
+                    max_score=0 if log.score else None,
                     status=TestCaseStatusEnum.PASSED if log.success else TestCaseStatusEnum.FAILED,
                 )
             )
