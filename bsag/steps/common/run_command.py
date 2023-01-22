@@ -10,12 +10,13 @@ from bsag.utils.subprocesses import run_subprocess
 
 
 class RunCommandConfig(BaseStepConfig):
-    display_name: str
+    display_name: str = "No Name"
     command: str | list[str]
     working_dir: Path | None = None
     command_timeout: PositiveInt | None = None
     points: float | None = None
     show_output: bool = True
+    shell: bool = False
 
 
 class RunCommand(BaseStepDefinition[RunCommandConfig]):
@@ -41,6 +42,7 @@ class RunCommand(BaseStepDefinition[RunCommandConfig]):
             config.command,
             cwd=config.working_dir,
             timeout=config.command_timeout,
+            shell=config.shell,
         )
 
         test_result = TestResult(max_score=config.points)

@@ -18,6 +18,7 @@ def run_subprocess(
     cwd: str | os.PathLike[str] | None = None,
     timeout: int | None = None,
     separate_stderr: bool = False,
+    shell: bool = False,
 ) -> SubprocessResult:
     if cwd is None:
         cwd = os.getcwd()
@@ -37,6 +38,7 @@ def run_subprocess(
         stderr=stderr_dst,
         cwd=cwd,
         text=True,
+        shell=shell,
     )
     timed_bomb = None
     if timeout:
