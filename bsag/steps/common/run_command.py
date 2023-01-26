@@ -45,11 +45,16 @@ class RunCommand(BaseStepDefinition[RunCommandConfig]):
             shell=config.shell,
         )
 
-        test_result = TestResult(max_score=config.points)
+        test_result = TestResult(
+            name=config.display_name,
+            max_score=config.points
+        )
         passed = True
+
         if output.timed_out:
             bsagio.student.error("Command timed out.")
             passed = False
+
         if not passed or output.return_code != 0:
             test_result.status = TestCaseStatusEnum.FAILED
             if config.points is not None:
