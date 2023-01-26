@@ -21,7 +21,7 @@ from bsag._types import (
 )
 from bsag.bsagio import BSAGIO
 from bsag.plugin import PROJECT_NAME, hookimpl
-from bsag.steps.common import DisplayMessage
+from bsag.steps.common import DisplayMessage, RunCommand
 from bsag.steps.gradescope import Lateness, LimitVelocity, ReadSubMetadata, WriteResults
 
 
@@ -41,6 +41,7 @@ def bsag_load_step_defs() -> list[type[ParamBaseStep]]:
         LimitVelocity,
         WriteResults,
         DisplayMessage,
+        RunCommand,
     ]
 
 
