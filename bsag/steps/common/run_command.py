@@ -22,7 +22,7 @@ class RunCommandConfig(BaseStepConfig):
 class RunCommand(BaseStepDefinition[RunCommandConfig]):
     @staticmethod
     def name() -> str:
-        return "run_command"
+        return "common.run_command"
 
     @classmethod
     def display_name(cls, config: RunCommandConfig) -> str:
