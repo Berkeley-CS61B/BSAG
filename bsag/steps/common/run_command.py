@@ -67,7 +67,6 @@ class RunCommand(BaseStepDefinition[RunCommandConfig]):
 
         if config.show_output:
             test_result.output = output.output
-
-        results.tests.append(test_result)
+            results.tests.append(test_result)
 
         return passed
