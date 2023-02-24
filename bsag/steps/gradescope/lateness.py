@@ -57,6 +57,8 @@ class Lateness(BaseStepDefinition[LatenessConfig]):
             bsagio.student.info("The autograder for this assignment will not run on a late submission.")
             return False
 
+        # At this point, we know the submission is late.
+
         penalty = 1.0
         keys = sorted(config.score_decay.keys())
         for k in keys:
@@ -66,7 +68,7 @@ class Lateness(BaseStepDefinition[LatenessConfig]):
         if res.score:
             bsagio.both.info(f"Your score on this assignment was {res.score:.3f}")
             res.score *= 1 - penalty
-            res.score = max(res.score, config.min_lateness_score)
+            res.score = min(res.score, config.min_lateness_score)
             bsagio.both.info(
                 f"After applying a lateness penalty of {penalty * 100:.2f}%, your final score is {res.score:.3f}"
             )
