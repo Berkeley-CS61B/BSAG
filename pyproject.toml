@@ -25,7 +25,7 @@ mypy = "*"
 types-PyYAML = "^6.0"
 types-pytz = "*"
 ruff = "^0.0"
-pre-commit = "^2.20.0"
+pre-commit = "^3.1.1"
 pyupgrade = "^3.2"
 loguru-mypy = "^0.0.4"
 
