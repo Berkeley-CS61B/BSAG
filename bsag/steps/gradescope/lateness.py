@@ -65,13 +65,16 @@ class Lateness(BaseStepDefinition[LatenessConfig]):
             if lateness < k:
                 penalty = config.score_decay[k]
 
-        if res.score:
-            bsagio.both.info(f"Your score on this assignment was {res.score:.3f}")
-            res.score *= 1 - penalty
-            res.score = min(res.score, config.min_lateness_score)
-            bsagio.both.info(
-                f"After applying a lateness penalty of {penalty * 100:.2f}%, your final score is {res.score:.3f}"
-            )
+        if res.score is not None:
+            bsagio.both.info(f"Your score on this assignment was {res.score:.3f}.")
+            if res.score > 0:
+                res.score *= 1 - penalty
+                res.score = max(res.score, config.min_lateness_score)
+                bsagio.both.info(
+                    f"After applying a lateness penalty of {penalty * 100:.2f}%, your final score is {res.score:.3f}."
+                )
+            else:
+                bsagio.both.info(f"Scores of 0 do not have lateness applied.")
         else:
             bsagio.private.error("Cannot apply a lateness penalty without an overall score.")
             bsagio.private.warning(f"Using minimum score {config.min_lateness_score}")
