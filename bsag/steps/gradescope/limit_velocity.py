@@ -8,7 +8,7 @@ from bsag import BaseStepConfig, BaseStepDefinition
 from bsag.bsagio import BSAGIO
 from bsag.utils.datetimes import ZERO_TD, format_datetime
 
-from ._types import METADATA_KEY, SubmissionMetadata
+from ._types import METADATA_KEY, SubmissionMetadata, Results, RESULTS_KEY
 
 EXTRA_TOKENS_KEY = "extra_tokens"
 """Used by `gradescope.limit_velocity` to add extra velocity tokens. If not present, then 0 tokens are added.
@@ -129,5 +129,9 @@ class LimitVelocity(BaseStepDefinition[LimitVelocityConfig]):
         else:
             recharge_time = format_datetime(recharge_at, config.time_zone, config.time_format)
             bsagio.student.info(f"Your next recharge will occur at {recharge_time}.")
+
+        if tokens_avail >= 0:
+            res: Results = bsagio.data[RESULTS_KEY]
+            res.score = 0
 
         return tokens_avail >= 0
