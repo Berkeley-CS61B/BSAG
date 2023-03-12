@@ -130,7 +130,7 @@ class LimitVelocity(BaseStepDefinition[LimitVelocityConfig]):
             recharge_time = format_datetime(recharge_at, config.time_zone, config.time_format)
             bsagio.student.info(f"Your next recharge will occur at {recharge_time}.")
 
-        if tokens_avail >= 0:
+        if tokens_avail < 0:
             res: Results = bsagio.data[RESULTS_KEY]
             res.score = 0
 
