@@ -77,7 +77,5 @@ class Lateness(BaseStepDefinition[LatenessConfig]):
                 bsagio.both.info(f"Scores of 0 do not have lateness applied.")
         else:
             bsagio.private.error("Cannot apply a lateness penalty without an overall score.")
-            bsagio.private.warning(f"Using minimum score {config.min_lateness_score}")
-            res.score = config.min_lateness_score
 
         return False
