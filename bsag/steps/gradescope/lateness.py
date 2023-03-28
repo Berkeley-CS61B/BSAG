@@ -14,6 +14,7 @@ class LatenessConfig(BaseStepConfig):
     min_lateness_score: NonNegativeFloat = 0
 
     @validator("score_decay")
+    # pylint: disable-next=no-self-argument
     def halt_on_fail__score_decay_mutually_exclusive(
         cls,
         score_decay: dict[NonNegativeInt, float],
@@ -31,7 +32,7 @@ class Lateness(BaseStepDefinition[LatenessConfig]):
         return "gradescope.lateness"
 
     @classmethod
-    def display_name(cls, config: LatenessConfig) -> str:
+    def display_name(cls, _config: LatenessConfig) -> str:
         return "Lateness"
 
     @classmethod
@@ -48,7 +49,7 @@ class Lateness(BaseStepDefinition[LatenessConfig]):
         if lateness == 0:
             return True
 
-        bsagio.both.info("Your submission is %.2f hours late." % (lateness / 3600))
+        bsagio.both.info(f"Your submission is {lateness / 3600:.2f} hours late.")
         if graced_lateness == 0:
             bsagio.both.info("This is within the grace period for late submissions on this assignment.")
             return True
@@ -74,7 +75,7 @@ class Lateness(BaseStepDefinition[LatenessConfig]):
                     f"After applying a lateness penalty of {penalty * 100:.2f}%, your final score is {res.score:.3f}."
                 )
             else:
-                bsagio.both.info(f"Scores of 0 do not have lateness applied.")
+                bsagio.both.info("Scores of 0 do not have lateness applied.")
         else:
             bsagio.private.error("Cannot apply a lateness penalty without an overall score.")
 

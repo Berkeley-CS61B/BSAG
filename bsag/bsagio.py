@@ -1,3 +1,4 @@
+import contextlib
 import sys
 from typing import Any
 
@@ -26,10 +27,8 @@ class BSAGIO:
 
         # TODO: `format` callable provided as argument?
         # TODO: log level setting, at least for private?
-        try:
+        with contextlib.suppress(ValueError):
             logger.remove(0)
-        except ValueError:
-            pass
 
         student_sink = create_student_sink(self.step_logs)
         # Student logs are never formatted

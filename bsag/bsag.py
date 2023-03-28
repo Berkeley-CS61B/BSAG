@@ -1,6 +1,7 @@
 import itertools
 import sys
 from argparse import ArgumentParser
+from pathlib import Path
 from typing import Any, get_args
 
 import pluggy  # type: ignore
@@ -57,6 +58,8 @@ class BSAG:
         if not step_defs:
             step_defs = []
         pm = get_plugin_manager()
+        # type: ignore
+        # pylint: disable-next=no-member
         plugin_steps: list[type[ParamBaseStep]] = list(itertools.chain(*pm.hook.bsag_load_step_defs()))  # type: ignore
         self._step_defs = {m.name(): m for m in plugin_steps + step_defs}
         self._global_config = self._load_yaml_global_config(global_config_path)
@@ -66,13 +69,13 @@ class BSAG:
 
     def _load_yaml_global_config(self, global_config_path: str | None) -> GlobalConfig:
         if global_config_path:
-            with open(global_config_path, encoding="utf-8") as f:
+            with Path(global_config_path).open(encoding="utf-8") as f:
                 return GlobalConfig.parse_obj(yaml.safe_load(f))
         else:
             return GlobalConfig()
 
     def _load_yaml_config(self, config_path: str) -> RunConfig:
-        with open(config_path, encoding="utf-8") as f:
+        with Path(config_path).open(encoding="utf-8") as f:
             predisc_config = ConfigPreDiscoveryYaml.parse_obj(yaml.safe_load(f))
 
         config = RunConfig()

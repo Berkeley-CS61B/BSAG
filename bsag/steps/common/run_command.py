@@ -33,7 +33,7 @@ class RunCommand(BaseStepDefinition[RunCommandConfig]):
         results: Results = bsagio.data[RESULTS_KEY]
 
         bsagio.private.debug(f"Working directory: {config.working_dir}")
-        if type(config.command) is str:
+        if isinstance(config.command, str):
             bsagio.private.debug("\n" + config.command)
         else:
             bsagio.private.debug("\n" + list2cmdline(config.command))
@@ -45,10 +45,7 @@ class RunCommand(BaseStepDefinition[RunCommandConfig]):
             shell=config.shell,
         )
 
-        test_result = TestResult(
-            name=config.display_name,
-            max_score=config.points
-        )
+        test_result = TestResult(name=config.display_name, max_score=config.points)
         passed = True
 
         if output.timed_out:

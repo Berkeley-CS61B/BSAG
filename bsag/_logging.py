@@ -1,7 +1,7 @@
 from __future__ import annotations  # necessary for loguru
 
+from collections.abc import Callable
 from enum import Flag, auto
-from typing import Callable
 
 import loguru
 from pydantic import BaseModel
@@ -28,10 +28,7 @@ def private_filter(record: loguru.Record) -> bool:
 
 def private_formatter(record: loguru.Record) -> str:
     swc: BaseStepWithConfig | None = record["extra"].get("swc")
-    if swc is None:
-        name = record["file"].name
-    else:
-        name = swc.name()
+    name = record["file"].name if swc is None else swc.name()
     return (
         "<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | "
         "<level>{level: >8}</level> | "

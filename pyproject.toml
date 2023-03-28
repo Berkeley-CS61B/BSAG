@@ -60,8 +60,27 @@ warn_unused_ignores = false
 max-line-length = 120
 good-names = "f,i,j,k,v"
 extension-pkg-whitelist = ["pydantic", "loguru"]
-disable = "C0114, C0115, C0116, C0103, R0903, R0914"
+disable = "C0114, C0115, C0116, C0103, R0903, R0913, R0914"
 
 [tool.ruff]
+fix = true
 line-length = 120
-extend-select = ["UP", "Q", "EM", "I", "B", "A", "C4", "ISC", "SIM"]
+extend-ignore = [
+  "PLR0913",
+]
+extend-select = [
+  "W",
+  "I",    # isort
+  "UP",   # pyupgrade
+  "A",    # flake8-builtins
+  "B",    # flake8-bugbear
+  "C4",   # flake8-comprehensions
+  "ISC",  # flake8-implicit-string-concat
+  "EM",   # flake8-errmsg
+  "PIE",
+  "Q",    # flake8-quotes
+  "SIM",  # flake8-simplify
+  "PTH",  # flake8-pathlib
+  "PL",
+  "RUF",
+]

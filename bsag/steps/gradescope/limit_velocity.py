@@ -8,7 +8,7 @@ from bsag import BaseStepConfig, BaseStepDefinition
 from bsag.bsagio import BSAGIO
 from bsag.utils.datetimes import ZERO_TD, format_datetime
 
-from ._types import METADATA_KEY, SubmissionMetadata, Results, RESULTS_KEY
+from ._types import METADATA_KEY, RESULTS_KEY, Results, SubmissionMetadata
 
 EXTRA_TOKENS_KEY = "extra_tokens"
 """Used by `gradescope.limit_velocity` to add extra velocity tokens. If not present, then 0 tokens are added.
@@ -32,6 +32,7 @@ class LimitVelocityConfig(BaseStepConfig):
     windows: list[Window]
 
     @validator("windows")
+    # pylint: disable-next=no-self-argument
     def windows_must_be_strictly_asc(cls, windows: list[Window]) -> list[Window]:
         for i in range(len(windows) - 1):
             if windows[i + 1].start_time - windows[i].start_time <= ZERO_TD:
@@ -40,6 +41,7 @@ class LimitVelocityConfig(BaseStepConfig):
         return windows
 
     @validator("windows", each_item=True)
+    # pylint: disable-next=no-self-argument
     def windows_must_be_offset_aware(cls, window: Window, values: dict[str, Any]) -> Window:
         config_tz = timezone(values["time_zone"])
         if not window.start_time.tzinfo:
@@ -53,7 +55,7 @@ class LimitVelocity(BaseStepDefinition[LimitVelocityConfig]):
         return "gradescope.limit_velocity"
 
     @classmethod
-    def display_name(cls, config: LimitVelocityConfig) -> str:
+    def display_name(cls, _config: LimitVelocityConfig) -> str:
         return "Limit Velocity"
 
     @classmethod
@@ -68,8 +70,9 @@ class LimitVelocity(BaseStepDefinition[LimitVelocityConfig]):
                 start_time=datetime.utcfromtimestamp(0).astimezone(timezone(config.time_zone)),
                 max_tokens=1,
                 recharge_time=ZERO_TD,
-            )
-        ] + config.windows
+            ),
+            *config.windows,
+        ]
 
         # Latest window with start time before current submission
         w_idx, active_window = [(i, w) for i, w in enumerate(windows) if w.start_time < curr_sub_create_time][-1]

@@ -1,8 +1,9 @@
 import os
 import subprocess
 import threading
+from collections.abc import Sequence
 from dataclasses import dataclass
-from typing import Sequence
+from pathlib import Path
 
 
 @dataclass
@@ -21,7 +22,7 @@ def run_subprocess(
     shell: bool = False,
 ) -> SubprocessResult:
     if cwd is None:
-        cwd = os.getcwd()
+        cwd = Path.cwd()
 
     killed = False
 

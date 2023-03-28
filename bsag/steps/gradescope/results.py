@@ -17,7 +17,7 @@ class WriteResults(BaseStepDefinition[ResultsConfig]):
         return "gradescope.results"
 
     @classmethod
-    def display_name(cls, config: ResultsConfig) -> str:
+    def display_name(cls, _config: ResultsConfig) -> str:
         return "Results"
 
     @classmethod

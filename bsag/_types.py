@@ -24,7 +24,7 @@ class BaseStepDefinition(ABC, Generic[C_co]):
     # https://github.com/python/mypy/issues/7049
     # The reason these aren't instance methods is that I can't enforce a constructor call that would set `config`.
     @classmethod
-    def display_name(cls, config: C_co) -> str:  # type: ignore
+    def display_name(cls, _config: C_co) -> str:  # type: ignore
         """Returns display name of module that appears in student-facing logs."""
         return cls.name()
 
