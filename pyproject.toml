@@ -14,7 +14,7 @@ python = "^3.10"
 pydantic = "^1.10.7"
 pytz = "*"
 PyYAML = "^6.0"
-loguru = "^0.6.0"
+loguru = "^0.7.0"
 devtools = "^0.10.0"
 pluggy = "^1.0.0"
 
