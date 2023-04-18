@@ -35,6 +35,14 @@ class SubmissionMethodEnum(str, Enum):
     BITBUCKET = "Bitbucket"
 
 
+class OutputFormatEnum(str, Enum):
+    TEXT = "text"
+    HTML = "html"
+    SIMPLE = "simple_format"
+    MD = "md"
+    ANSI = "ansi"
+
+
 class User(BaseModel):
     email: str
     id: int  # noqa
@@ -64,8 +72,10 @@ class TestResult(BaseModel):
     max_score: float | None = None
     status: TestCaseStatusEnum | None = None
     name: str | None = None
+    name_format: OutputFormatEnum | None = None
     number: str | None = None
     output: str | None = None
+    output_format: OutputFormatEnum | None = None
     tags: list[str] = []
     visibility: VisibilityEnum | None = None
 
@@ -74,6 +84,9 @@ class Results(BaseModel):
     score: float | None = None
     execution_time: float | None = None
     output: str | None = None
+    output_format: OutputFormatEnum | None = None
+    test_output_format: OutputFormatEnum | None = None
+    test_name_format: OutputFormatEnum | None = None
     visibility: VisibilityEnum | None = None
     stdout_visibility: VisibilityEnum | None = None
     tests: list[TestResult] = []
