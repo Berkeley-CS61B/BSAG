@@ -5,7 +5,7 @@ from pydantic import PositiveInt
 
 from bsag import BaseStepConfig, BaseStepDefinition
 from bsag.bsagio import BSAGIO
-from bsag.steps.gradescope import RESULTS_KEY, Results, TestCaseStatusEnum, TestResult
+from bsag.steps.gradescope import RESULTS_KEY, OutputFormatEnum, Results, TestCaseStatusEnum, TestResult, VisibilityEnum
 from bsag.utils.subprocesses import run_subprocess
 
 
@@ -16,6 +16,8 @@ class RunCommandConfig(BaseStepConfig):
     command_timeout: PositiveInt | None = None
     points: float | None = None
     show_output: bool = True
+    output_visibility: VisibilityEnum | None = None
+    output_format: OutputFormatEnum | None = None
     shell: bool = False
 
 
@@ -64,6 +66,10 @@ class RunCommand(BaseStepDefinition[RunCommandConfig]):
 
         if config.show_output:
             test_result.output = output.output
+            if config.output_format:
+                test_result.output_format = config.output_format
+            if config.output_visibility:
+                test_result.visibility = config.output_visibility
             results.tests.append(test_result)
 
         return passed
