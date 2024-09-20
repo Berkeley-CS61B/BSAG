@@ -1,4 +1,5 @@
 import os
+import signal
 import subprocess
 import threading
 from collections.abc import Sequence
@@ -30,7 +31,7 @@ def run_subprocess(
         if p.poll() is None:
             nonlocal killed
             killed = True
-            p.kill()
+            os.killpg(os.getpgid(p.pid), signal.SIGTERM)
 
     stderr_dst = subprocess.PIPE if separate_stderr else subprocess.STDOUT
     process = subprocess.Popen(
@@ -40,6 +41,7 @@ def run_subprocess(
         cwd=cwd,
         text=True,
         shell=shell,
+        start_new_session=True,
     )
     timed_bomb = None
     if timeout:
