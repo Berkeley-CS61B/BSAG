@@ -51,7 +51,7 @@ class RunCommand(BaseStepDefinition[RunCommandConfig]):
         passed = True
 
         if output.timed_out:
-            bsagio.student.error("Command timed out.")
+            bsagio.student.error(f"Command timed out after {config.command_timeout} seconds.")
             passed = False
 
         if not passed or output.return_code != 0:
@@ -66,6 +66,8 @@ class RunCommand(BaseStepDefinition[RunCommandConfig]):
 
         if config.show_output:
             test_result.output = output.output
+            if output.timed_out:
+                test_result.output += f"\n------------\nTimed out after {config.command_timeout} seconds."
             if config.output_format:
                 test_result.output_format = config.output_format
             if config.output_visibility:
