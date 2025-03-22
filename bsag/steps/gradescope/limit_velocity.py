@@ -85,6 +85,7 @@ class LimitVelocity(BaseStepDefinition[LimitVelocityConfig]):
             and (ZERO_TD <= (curr_sub_create_time - sub.submission_time) < active_window.recharge_time)
         ]
         token_submissions_times.append(curr_sub_create_time)
+        token_submissions_times.sort()
 
         extra_tokens: int = data.get(EXTRA_TOKENS_KEY, 0)
         bsagio.private.trace(f"Extra tokens: {extra_tokens}")
