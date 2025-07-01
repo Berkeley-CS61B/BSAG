@@ -43,10 +43,16 @@ class OutputFormatEnum(str, Enum):
     ANSI = "ansi"
 
 
+class AssignmentUser(BaseModel):
+    release_date: datetime
+    due_date: datetime
+    late_due_date: datetime | None = None
+
 class User(BaseModel):
     email: str
     id: int  # noqa
     name: str
+    assignment: AssignmentUser | None = None
 
 
 class Assignment(BaseModel):

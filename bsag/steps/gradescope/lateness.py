@@ -40,10 +40,11 @@ class Lateness(BaseStepDefinition[LatenessConfig]):
         subm_data: SubmissionMetadata = bsagio.data[METADATA_KEY]
         res: Results = bsagio.data[RESULTS_KEY]
 
-        lateness = max(0, (subm_data.created_at - subm_data.assignment.due_date).total_seconds())
+        lateness = max(0, (subm_data.created_at - subm_data.users[0].assignment.due_date).total_seconds())
         graced_lateness = max(0, lateness - config.grace_period)
 
-        bsagio.private.debug("Due:       " + str(subm_data.assignment.due_date))
+        bsagio.private.debug("Original due date: " + str(subm_data.assignment.due_date))
+        bsagio.private.debug("Due for student:       " + str(subm_data.users[0].assignment.due_date))
         bsagio.private.debug("Submitted: " + str(subm_data.created_at))
 
         if lateness == 0:
