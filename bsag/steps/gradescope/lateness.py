@@ -82,7 +82,7 @@ class Lateness(BaseStepDefinition[LatenessConfig]):
                 res.score *= 1 - penalty
                 res.score = max(res.score, config.min_lateness_score)
                 bsagio.both.info(
-                    f"After applying a lateness penalty of {penalty * 100:.2f}%, your final score is {res.score:.3f}."
+                    f"After applying a grace period and extensions (if applicable), your lateness penalty is {penalty * 100:.2f}%. Your final score is {res.score:.3f}."
                 )
             else:
                 bsagio.both.info("Scores of 0 do not have lateness applied.")
