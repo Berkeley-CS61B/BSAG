@@ -72,6 +72,8 @@ class Lateness(BaseStepDefinition[LatenessConfig]):
 
         penalty = 1.0
         keys = sorted(config.score_decay.keys())
+        if graced_lateness > 0 and keys:
+            penalty = config.score_decay[keys[0]]
         for k in keys:
             if graced_lateness > k:
                 penalty = config.score_decay[k]
